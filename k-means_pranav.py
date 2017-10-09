@@ -139,13 +139,12 @@ def drawWindow(result):
 
 
 
-num_input = str(input("Enter image number: "))
+img_num = str(input("Enter image number: "))
 k_input = int(input("Enter K value: "))
 
 #Input image
-img = "img/test" + num_input.zfill(2) + ".jpg"
+img = "img/test" + img_num.zfill(2) + ".jpg"
 im = Image.open(img)
-
 img_width, img_height = im.size
 im = im.filter(ImageFilter.UnsharpMask(3,150,3))
 
@@ -166,7 +165,7 @@ clustered_image = cv2.GaussianBlur(clustered_image,(3,3),0)
 clustered_image = cv2.medianBlur(clustered_image,5)
 ret3,clustered_image = cv2.threshold(clustered_image,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
 clustered_image = cv2.medianBlur(clustered_image,7)
-cv2.imwrite('img/test22.jpg', clustered_image)
+cv2.imwrite("img/results/test"+ img_num +".jpg", clustered_image)
 
 contours,hierarchy = cv2.findContours(clustered_image, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
@@ -175,4 +174,4 @@ cv2.drawContours(clustered_image, [largest_areas[0]],0,(255,255,255),1)
 ret3,clustered_image = cv2.threshold(clustered_image,220,255,cv2.THRESH_BINARY)
 
 cv2.fillConvexPoly(clustered_image,largest_areas[0],(255,255,255))
-cv2.imwrite("img/zz.jpg",clustered_image)
+cv2.imwrite("img/results/final" + img_num + ".jpg",clustered_image)
